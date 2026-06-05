@@ -71,27 +71,42 @@ void lancerPartie(Jeu jeu)
     {
         Console.Clear();
 
+        Joueur joueurCourant = partie.Joueurs[partie.JoueurActif];
+
         if (alertePleine)
         {
             alertePleine = false;
             Console.WriteLine("Cette colonne est pleine");
         }
 
-        Console.WriteLine($"Joueur: {partie.Joueurs[partie.JoueurActif].Nom}");
+        Console.WriteLine($"Joueur: {joueurCourant.Nom}");
         Console.WriteLine("Plateau: ");
         partie.Plateau.Affiche();
 
-        Console.WriteLine("Choisissez une colonne");
-
-        int choix = Convert.ToInt32(Console.ReadLine());
-
-        if (!partie.JouerCoup(choix - 1))
+        if (joueurCourant.Type == TypeJoueur.IA)
         {
-            alertePleine = true;
+            Console.WriteLine($"L'IA {joueurCourant.Nom} réfléchit...");
+            System.Threading.Thread.Sleep(1000);
+
+            IA ia = new(5);
+            partie.JouerCoup(ia.ChoisirCoup(partie.Plateau, joueurCourant.Couleur));
+
+            partie.ChangerJoueur();
         }
         else
         {
-            partie.ChangerJoueur();
+            Console.WriteLine("Choisissez une colonne");
+
+            int choix = Convert.ToInt32(Console.ReadLine());
+
+            if (!partie.JouerCoup(choix - 1))
+            {
+                alertePleine = true;
+            }
+            else
+            {
+                partie.ChangerJoueur();
+            }
         }
 
         couleurGagnant = partie.TrouverCouleurGagnant();
