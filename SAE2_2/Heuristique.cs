@@ -18,9 +18,28 @@ namespace SAE2_2
             Plateau = plateau.Cloner();
         }
 
-        public int Evaluation()
+        public int CalculerScoreHeuristique()
         {
-            int nbCouples = 0, nbTriples = 0;
+            CouleursPion couleurAdversaire = Couleur == CouleursPion.Bleu ? CouleursPion.Rouge : CouleursPion.Bleu;
+
+            Pion pionGagnant = Plateau.VerifierAlignement();
+            if (pionGagnant != null)
+            {
+                if (pionGagnant.Couleur == Couleur)
+                    return 100000; // Victoire absolue
+                else
+                    return -100000; // Défaite absolue
+            }
+
+            Score = Evaluation(Couleur) - Evaluation(couleurAdversaire);
+
+            return Score;
+        }
+
+        private int Evaluation(CouleursPion couleurJoueur)
+        {
+            int nbCouples = 0;
+            int nbTriples = 0;
 
             for (int i = 0; i < Plateau.Longueur; i++)
             {
@@ -28,46 +47,34 @@ namespace SAE2_2
                 {
                     Case @case = Plateau.Cases[i, j];
 
-                    if (@case.Contenu != null && @case.Contenu.Couleur == Couleur)
+                    if (@case.Contenu != null && @case.Contenu.Couleur == couleurJoueur)
                     {
-                        // Vérification horizontale vers la droite
-                        if (j + 1 < Plateau.Largeur && Plateau.Cases[i, j + 1].Contenu?.Couleur == Couleur)
+                        // 1. Horizontale
+                        if (j + 1 < Plateau.Largeur && Plateau.Cases[i, j + 1].Contenu?.Couleur == couleurJoueur)
                         {
                             nbCouples++;
-                            if (j + 2 < Plateau.Largeur && Plateau.Cases[i, j + 2].Contenu?.Couleur == Couleur)
-                            {
-                                nbTriples++;
-                            }
+                            if (j + 2 < Plateau.Largeur && Plateau.Cases[i, j + 2].Contenu?.Couleur == couleurJoueur) nbTriples++;
                         }
 
-                        // Vérification verticale vers le bas
-                        if (i + 1 < Plateau.Longueur && Plateau.Cases[i + 1, j].Contenu?.Couleur == Couleur)
+                        // 2. Verticale
+                        if (i + 1 < Plateau.Longueur && Plateau.Cases[i + 1, j].Contenu?.Couleur == couleurJoueur)
                         {
                             nbCouples++;
-                            if (i + 2 < Plateau.Longueur && Plateau.Cases[i + 2, j].Contenu?.Couleur == Couleur)
-                            {
-                                nbTriples++;
-                            }
+                            if (i + 2 < Plateau.Longueur && Plateau.Cases[i + 2, j].Contenu?.Couleur == couleurJoueur) nbTriples++;
                         }
 
-                        // Diagonale Descendante (haut-gauche vers bas-droite)
-                        if (i + 1 < Plateau.Longueur && j + 1 < Plateau.Largeur && Plateau.Cases[i + 1, j + 1].Contenu?.Couleur == Couleur)
+                        // 3. Diagonale Descendante
+                        if (i + 1 < Plateau.Longueur && j + 1 < Plateau.Largeur && Plateau.Cases[i + 1, j + 1].Contenu?.Couleur == couleurJoueur)
                         {
                             nbCouples++;
-                            if (i + 2 < Plateau.Longueur && j + 2 < Plateau.Largeur && Plateau.Cases[i + 2, j + 2].Contenu?.Couleur == Couleur)
-                            {
-                                nbTriples++;
-                            }
+                            if (i + 2 < Plateau.Longueur && j + 2 < Plateau.Largeur && Plateau.Cases[i + 2, j + 2].Contenu?.Couleur == couleurJoueur) nbTriples++;
                         }
 
-                        // Diagonale Montante (bas-gauche vers haut-droite)
-                        if (i - 1 >= 0 && j + 1 < Plateau.Largeur && Plateau.Cases[i - 1, j + 1].Contenu?.Couleur == Couleur)
+                        // 4. Diagonale Montante
+                        if (i - 1 >= 0 && j + 1 < Plateau.Largeur && Plateau.Cases[i - 1, j + 1].Contenu?.Couleur == couleurJoueur)
                         {
                             nbCouples++;
-                            if (i - 2 >= 0 && j + 2 < Plateau.Largeur && Plateau.Cases[i - 2, j + 2].Contenu?.Couleur == Couleur)
-                            {
-                                nbTriples++;
-                            }
+                            if (i - 2 >= 0 && j + 2 < Plateau.Largeur && Plateau.Cases[i - 2, j + 2].Contenu?.Couleur == couleurJoueur) nbTriples++;
                         }
                     }
                 }
