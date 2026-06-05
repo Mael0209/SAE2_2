@@ -35,7 +35,7 @@ namespace SAE2_2
 
         public Partie DemarrerPartie()
         {
-            if (Partie is not null)
+            if (Partie is null)
             {
                 Partie = new Partie(Joueurs);
                 return Partie;

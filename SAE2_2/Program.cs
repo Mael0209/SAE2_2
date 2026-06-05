@@ -64,19 +64,21 @@ Jeu initJeu(Joueur j1, Joueur j2)
 void lancerPartie(Jeu jeu)
 {
     Partie partie = new(jeu.Joueurs[0], jeu.Joueurs[1]);
-    bool alertePleine = false;
+    bool alerteMessage = false;
+    string messageErreur = "";
     CouleursPion? couleurGagnant = null;
+    bool matchNul = false;
 
-    while (partie.Etat != EtatPartie.Finie)
+    while (partie.Etat != EtatPartie.Finie && !matchNul)
     {
         Console.Clear();
 
         Joueur joueurCourant = partie.Joueurs[partie.JoueurActif];
 
-        if (alertePleine)
+        if (alerteMessage)
         {
-            alertePleine = false;
-            Console.WriteLine("Cette colonne est pleine");
+            alerteMessage = false;
+            Console.WriteLine(messageErreur);
         }
 
         Console.WriteLine($"Joueur: {joueurCourant.Nom}");
@@ -95,17 +97,25 @@ void lancerPartie(Jeu jeu)
         }
         else
         {
-            Console.WriteLine("Choisissez une colonne");
+            Console.WriteLine($"Choisissez une colonne (1 à {partie.Plateau.Largeur}) :");
+            string? input = Console.ReadLine();
 
-            int choix = Convert.ToInt32(Console.ReadLine());
-
-            if (!partie.JouerCoup(choix - 1))
+            if (int.TryParse(input, out int choix) && choix >= 1 && choix <= partie.Plateau.Largeur)
             {
-                alertePleine = true;
+                if (!partie.JouerCoup(choix - 1))
+                {
+                    alerteMessage = true;
+                    messageErreur = "Cette colonne est pleine";
+                }
+                else
+                {
+                    partie.ChangerJoueur();
+                }
             }
             else
             {
-                partie.ChangerJoueur();
+                alerteMessage = true;
+                messageErreur = "Saisie invalide ! Veuillez entrer un nombre correct.";
             }
         }
 
@@ -115,10 +125,15 @@ void lancerPartie(Jeu jeu)
         {
             partie.Etat = EtatPartie.Finie;
         }
+        else if (partie.Plateau.EstPlein())
+        {
+            matchNul = true;
+        }
     }
 
     Console.Clear();
-    string? textGagnant = couleurGagnant is null ? "Aucun gagnant" : Enum.GetName(couleurGagnant.Value);
+    partie.Plateau.Affiche();
+    string? textGagnant = matchNul ? "Match nul" : Enum.GetName(couleurGagnant!.Value);
     Console.WriteLine($"Partie finie ! \nGagnant: {textGagnant}");
 }
 
