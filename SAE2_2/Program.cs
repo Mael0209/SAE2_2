@@ -1,5 +1,6 @@
 ﻿using SAE2_2;
 
-Plateau plateau = new Plateau();
+Joueur j1 = new("aaaa", TypeJoueur.Humain);
+Joueur j2 = new("bbbbnn", TypeJoueur.IA);
 
-plateau.Affiche();
+Jeu jeu = new(j1, j2);

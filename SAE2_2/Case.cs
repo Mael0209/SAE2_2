@@ -23,6 +23,10 @@ namespace SAE2_2
             Contenu = contenu;
         }
 
+        /// <summary>
+        /// Une méthode pour savoir si une case a un pion
+        /// </summary>
+        /// <returns>Si la case est libre ou non</returns>
         public bool EstLibre()
         {
             return Contenu == null;
