@@ -75,10 +75,6 @@ namespace SAE2_2
             return null;
         }
 
-        /// <summary>
-        /// Alterne le joueur actif
-        /// </summary>
-        /// <returns>Le joueur maintenant actif</returns>
         public Joueur ChangerJoueur()
         {
             JoueurActif = JoueurActif == 0 ? 1 : 0;

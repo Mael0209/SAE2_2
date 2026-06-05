@@ -31,10 +31,6 @@ namespace SAE2_2
                     Cases[i, j] = new Case(i, j);
         }
 
-        /// <summary>
-        /// Une méthode pour cloner le plateau actuel
-        /// </summary>
-        /// <returns>La copie du plateau</returns>
         public Plateau Cloner()
         {
             Plateau plateau = new(Longueur, Largeur);
@@ -66,13 +62,8 @@ namespace SAE2_2
             return !ColonnePleine(colonne);
         }
 
-        /// <summary>
-        /// Vérifie dans tout le plateau si un alignement de 4 pions existe
-        /// </summary>
-        /// <returns>la référence d'un point de l'alignement (peut être null)</returns>
         public Pion VerifierAlignement()
         {
-            // On parcourt toute la grille
             for (int i = 0; i < Longueur; i++)
             {
                 for (int j = 0; j < Largeur; j++)
@@ -124,7 +115,6 @@ namespace SAE2_2
                 }
             }
 
-            // Aucun gagnant trouvé
             return null;
         }
 
@@ -147,7 +137,7 @@ namespace SAE2_2
             return plein;
         }
 
-        public bool ColonnePleine(int nColonne) // On a juste besoin de vérifier la ligne la plus haute
+        public bool ColonnePleine(int nColonne)
         {
             return Cases[0, nColonne].Contenu != null;
         }

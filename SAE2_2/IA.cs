@@ -13,10 +13,6 @@ namespace SAE2_2
             ProfondeurMax = profondeur;
         }
 
-        /// <summary>
-        /// Méthode pour obtenir la colonne choisie par l'IA.
-        /// </summary>
-        /// <returns>La meilleur colonne à choisir</returns>
         public int ChoisirCoup(Plateau plateauActuel, CouleursPion couleurIA)
         {
             int meilleurScore = int.MinValue;
@@ -46,7 +42,6 @@ namespace SAE2_2
         {
             Heuristique h = new Heuristique(couleurIA, plateau);
 
-            // si un joueur a gagné ou perdu sur ce plateau simulé
             Pion pionGagnant = plateau.VerifierAlignement();
             if (pionGagnant != null)
             {

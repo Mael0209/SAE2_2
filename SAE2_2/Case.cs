@@ -8,7 +8,7 @@ namespace SAE2_2
     {
         public int Ligne { get; set; }
         public int Colonne { get; set; }
-        public Pion? Contenu { get; set; } // Contient un Pion par référence. Est créé à la valeur null
+        public Pion? Contenu { get; set; }
 
         public Case(int ligne, int colonne)
         {
@@ -23,10 +23,6 @@ namespace SAE2_2
             Contenu = contenu;
         }
 
-        /// <summary>
-        /// Une méthode pour savoir si une case a un pion
-        /// </summary>
-        /// <returns>Si la case est libre ou non</returns>
         public bool EstLibre()
         {
             return Contenu == null;

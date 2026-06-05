@@ -26,9 +26,9 @@ namespace SAE2_2
             if (pionGagnant != null)
             {
                 if (pionGagnant.Couleur == Couleur)
-                    return 100000; // Victoire absolue
+                    return 100000;
                 else
-                    return -100000; // Défaite absolue
+                    return -100000;
             }
 
             Score = Evaluation(Couleur) - Evaluation(couleurAdversaire);
