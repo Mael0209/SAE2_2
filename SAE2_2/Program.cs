@@ -135,13 +135,16 @@ while (!partieFinie)
     int choix;
     do
     {
-        Console.WriteLine("1- Lancer partie");
+        Console.WriteLine("1- Lancer partie \n0- arrêter partie");
         choix = Convert.ToInt32(Console.ReadLine());
 
         switch (choix)
         {
             case 1:
                 lancerPartie(jeu);
+                break;
+            case 0:
+                partieFinie = true;
                 break;
             default:
                 break;
