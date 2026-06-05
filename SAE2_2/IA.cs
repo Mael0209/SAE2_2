@@ -14,7 +14,7 @@ namespace SAE2_2
         }
 
         /// <summary>
-        /// Méthode appelée par le jeu pour obtenir la colonne choisie par l'IA.
+        /// Méthode pour obtenir la colonne choisie par l'IA.
         /// </summary>
         /// <returns>La meilleur colonne à choisir</returns>
         public int ChoisirCoup(Plateau plateauActuel, CouleursPion couleurIA)

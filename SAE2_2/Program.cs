@@ -118,7 +118,8 @@ void lancerPartie(Jeu jeu)
     }
 
     Console.Clear();
-    Console.WriteLine($"Partie finie ! \nGagnant: {couleurGagnant}");
+    string? textGagnant = couleurGagnant is null ? "Aucun gagnant" : Enum.GetName(couleurGagnant.Value);
+    Console.WriteLine($"Partie finie ! \nGagnant: {textGagnant}");
 }
 
 List<string> couleursDispo = Enum.GetNames(typeof(CouleursPion)).ToList();

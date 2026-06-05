@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SAE2_2
 {
-    public class Plateau // A FAIRE : VERIFIER ALIGNEMENT
+    public class Plateau
     {
         public Case[,] Cases { get; set; }
         public int Longueur { get; set; } = 6;
@@ -87,7 +87,6 @@ namespace SAE2_2
                     CouleursPion couleurCherchee = pionCourant.Couleur;
 
                     // Vérification Horizontale (vers la droite)
-                    // L'opérateur ?. permet de vérifier si Contenu est null en toute sécurité
                     if (j + 3 < Largeur &&
                         Cases[i, j + 1].Contenu?.Couleur == couleurCherchee &&
                         Cases[i, j + 2].Contenu?.Couleur == couleurCherchee &&
@@ -127,6 +126,25 @@ namespace SAE2_2
 
             // Aucun gagnant trouvé
             return null;
+        }
+
+        public bool EstPlein()
+        {
+            bool plein = true;
+
+            for (int i = 0; i < Longueur; i++)
+            {
+                for (int j = 0; j < Largeur; j++)
+                {
+                    if (Cases[i,j].Contenu is null)
+                    {
+                        plein = false;
+                        break;
+                    }
+                }
+            }
+
+            return plein;
         }
 
         public bool ColonnePleine(int nColonne) // On a juste besoin de vérifier la ligne la plus haute
