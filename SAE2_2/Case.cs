@@ -34,7 +34,9 @@ namespace SAE2_2
 
         public override string ToString()
         {
-            return "-";
+            if (Contenu == null)
+                return "-";
+            return Contenu.Couleur == CouleursPion.Bleu ? "B" : "R";
         }
     }
 }

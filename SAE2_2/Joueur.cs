@@ -14,13 +14,19 @@ namespace SAE2_2
     {
         public string Nom { get; set; }
         public TypeJoueur Type { get; set; }
-        public Pion PionAssocie { get; set; }
         public CouleursPion Couleur { get; set; }
 
         public Joueur(string nom, TypeJoueur type)
         {
             Nom = nom;
             Type = type;
+        }
+
+        public Joueur(string nom, TypeJoueur type, CouleursPion couleur)
+        {
+            Nom = nom;
+            Type = type;
+            Couleur = couleur;
         }
 
         public override string ToString()
