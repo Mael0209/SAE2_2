@@ -1,28 +1,59 @@
 ﻿using SAE2_2;
 
-Joueur creerJoueur()
+Joueur creerJoueur(List<string> couleursDispo)
 {
     string? nom;
     TypeJoueur type;
     int choix;
+    CouleursPion couleur;
 
     do
     {
         Console.WriteLine("Saisissez le nom du joueur : ");
         nom = Console.ReadLine();
-    } while (nom.IsWhiteSpace());
+    } while (string.IsNullOrWhiteSpace(nom));
 
     do
     {
         Console.WriteLine("Joueur ou IA ? \n1- Joueur \n2- IA");
-        choix = Convert.ToInt32(Console.ReadLine());
-    } while (choix != 1 && choix != 2);
+    } while (!int.TryParse(Console.ReadLine(), out choix) || (choix != 1 && choix != 2));
 
     type = choix == 1 ? TypeJoueur.Humain : TypeJoueur.IA;
 
+    string couleurChoisie;
+
+    if (couleursDispo.Count == 1)
+    {
+        couleurChoisie = couleursDispo.First();
+    }
+    else
+    {
+        int choixCouleur = -1;
+        do
+        {
+            Console.WriteLine("Couleur: ");
+            for (int i = 0; i < couleursDispo.Count; i++)
+            {
+                Console.WriteLine($"{i}- {couleursDispo[i]}");
+            }
+
+            if (!int.TryParse(Console.ReadLine(), out choixCouleur))
+            {
+                Console.WriteLine("Saisissez un nombre valide.");
+                choixCouleur = -1;
+            }
+        } while (choixCouleur < 0 || choixCouleur >= couleursDispo.Count);
+
+        couleurChoisie = couleursDispo[choixCouleur];
+    }
+
+    couleur = couleurChoisie == "Bleu" ? CouleursPion.Bleu : CouleursPion.Rouge;
+
+    couleursDispo.Remove(couleurChoisie);
+
     Console.Clear();
 
-    return new Joueur(nom, type);
+    return new Joueur(nom, type, couleur);
 }
 
 Jeu initJeu(Joueur j1, Joueur j2)
@@ -75,9 +106,9 @@ void lancerPartie(Jeu jeu)
     Console.WriteLine($"Partie finie ! \nGagnant: {couleurGagnant}");
 }
 
-Joueur j1 = creerJoueur(), j2 = creerJoueur();
+List<string> couleursDispo = Enum.GetNames(typeof(CouleursPion)).ToList();
 
-j2.Couleur = CouleursPion.Rouge; // A CHANGER
+Joueur j1 = creerJoueur(couleursDispo), j2 = creerJoueur(couleursDispo);
 
 Jeu jeu = initJeu(j1, j2);
 
