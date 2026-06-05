@@ -30,7 +30,7 @@ namespace SAE2_2
                     Cases[i, j] = new Case(i, j);
         }
 
-        public void AjouterPion(Pion pion, int colonne)
+        public bool AjouterPion(Pion pion, int colonne)
         {
             if (!ColonnePleine(colonne))
                 for (int i = Longueur-1; i >= 0; i--)
@@ -42,6 +42,7 @@ namespace SAE2_2
                         break;
                     }
                 }
+            return !ColonnePleine(colonne);
         }
 
         /// <summary>
@@ -118,8 +119,10 @@ namespace SAE2_2
             for (int i = 0; i < Longueur; i++)
             {
                 string texte = "";
+
                 for (int j = 0; j < Largeur; j++)
                     texte += $" {Cases[i, j].ToString()} ";
+
                 Console.WriteLine($"{texte}\n");
             }
         }

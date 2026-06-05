@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Numerics;
 using System.Text;
 
 namespace SAE2_2
@@ -8,7 +9,7 @@ namespace SAE2_2
     public enum EtatPartie
     {
         En_cours,
-        finie
+        Finie
     }
 
     public struct DataCoup
@@ -46,6 +47,14 @@ namespace SAE2_2
             Joueurs = joueurs;
         }
 
+        public Partie(Joueur j1, Joueur j2)
+        {
+            Plateau = new();
+            Etat = EtatPartie.En_cours;
+            Coups = new Collection<DataCoup>();
+            Joueurs = new Joueur[] { j1, j2 };
+        }
+
         public Partie(Joueur j1, Joueur j2, int longeur, int largeur)
         {
             Plateau = new(longeur, largeur);
@@ -74,6 +83,13 @@ namespace SAE2_2
         {
             JoueurActif = JoueurActif == 0 ? 1 : 0;
             return Joueurs[JoueurActif];
+        }
+
+        public bool JouerCoup(int colonne)
+        {
+            Pion pion = new Pion(Joueurs[JoueurActif].Couleur);
+            Console.WriteLine(pion.Couleur);
+            return Plateau.AjouterPion(pion, colonne);
         }
 
         public override string ToString()
