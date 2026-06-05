@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SAE2_2
@@ -30,10 +31,30 @@ namespace SAE2_2
                     Cases[i, j] = new Case(i, j);
         }
 
+        /// <summary>
+        /// Une méthode pour cloner le plateau actuel
+        /// </summary>
+        /// <returns>La copie du plateau</returns>
+        public Plateau Cloner()
+        {
+            Plateau plateau = new(Longueur, Largeur);
+            for (int i = 0; i < Longueur; i++)
+            {
+                for (int j = 0; j < Largeur; j++)
+                {
+                    if (this.Cases[i, j].Contenu != null)
+                    {
+                        plateau.Cases[i, j].Contenu = new Pion(Cases[i, j].Contenu!.Couleur);
+                    }
+                }
+            }
+            return plateau;
+        }
+
         public bool AjouterPion(Pion pion, int colonne)
         {
             if (!ColonnePleine(colonne))
-                for (int i = Longueur-1; i >= 0; i--)
+                for (int i = Longueur - 1; i >= 0; i--)
                 {
                     Case @case = Cases[i, colonne];
                     if (@case.Contenu == null)
